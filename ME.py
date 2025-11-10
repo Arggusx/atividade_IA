@@ -1,13 +1,12 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, classification_report
 
 data = pd.read_csv('data.csv')
+print('DADOS:')
+print(data.head(), '\n')
 
-print(data.head())
-
-# Separando as variáveis de entrada (temperatura e umidade) e o alvo (jogar_tenis)
 X = data[['glucose', 'bloodpressure']]
 y = data['diabetes']
 
@@ -21,6 +20,7 @@ y_pred = modelo.predict(X_test)
 
 acuracia = accuracy_score(y_test, y_pred)
 
-print('Previsão: ', y_pred)
-
-print(f'Acurácia: {acuracia * 100:.2f}%')
+print(f"PREVISÃO: \n\n{y_pred}\n")
+print("RELATÓRIO:")
+print(classification_report( y_test, y_pred),'\n')
+print(f'ACURÁCIA: {acuracia * 100:.2f}%')
