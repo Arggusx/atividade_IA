@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, classification_report
 
-data = pd.read_csv('data.csv')
+data = pd.read_csv('Arquivos/data.csv')
 print('DADOS:')
 print(data.head(), '\n')
 
