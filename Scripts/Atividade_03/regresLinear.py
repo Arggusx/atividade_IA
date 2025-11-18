@@ -1,11 +1,12 @@
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
+import numpy as np
+import pandas as pd
 from sklearn.linear_model import LinearRegression
-import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.preprocessing import LabelEncoder
+import seaborn as sns
 
 matplotlib.use('Agg')
 
@@ -17,32 +18,36 @@ df.info()
 df.describe()
 
 df['salary'].hist(bins=20)
-plt.savefig("hist_salary.png")
+plt.savefig("linear_hist_salary.png")
 plt.close()
 
 sns.pairplot(df)
-plt.savefig("pairplot.png")
+plt.savefig("linear_pairplot.png")
 plt.close()
 
 print("Gráficos gerados!")
 
 # ===========
-# TRATAMENTO 
+# TRATAMENTO
 # ===========
 
-# Separar variável-alvo ANTES do get_dummies
-y = df["salary"]
-y = (y == ">50K").astype(int)  # converter para binário
+# Limpar espaços em branco nas colunas e nos valores (string)
+df.columns = df.columns.str.strip()
+for col in df.select_dtypes(include=['object']).columns:
+    df[col] = df[col].str.strip()
 
-df = df.drop("salary", axis=1)
+# Codificar a variável alvo (salary) para binário
+# <=50K -> 0 e >50K -> 1
+le = LabelEncoder()
+df['salary_encoded'] = le.fit_transform(df['salary'])
 
-# Preencher nulos
-df = df.fillna(df.median(numeric_only=True))
+# Selecionar features e alvo
+# Removemos a coluna original de texto 'salary' e a nova codificada 'salary_encoded' das features
+X = df.drop(['salary', 'salary_encoded'], axis=1)
+y = df['salary_encoded']
 
-# One-hot encoding
-df = pd.get_dummies(df, drop_first=True)
-
-X = df
+# Converter variáveis categóricas restantes em numéricas (One-Hot Encoding)
+X = pd.get_dummies(X, drop_first=True)
 
 # ==========
 # TREINO
@@ -73,4 +78,4 @@ coef = pd.DataFrame({
     "Feature": X.columns,
     "Coeficiente": lr.coef_
 })
-coef
+print(coef)
