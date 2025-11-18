@@ -228,10 +228,7 @@ print(coef_df.sort_values(by="Odds_Ratio", ascending=False))
   - Seleção de features e engenharia de variáveis.  
   - Modelos de ensamble (Random Forest, Gradient Boosting).  
 
-
-
-
-### Processo de execução
+## 7. Processo de execução
 - Carregamento e tratamento do dataset (remoção de caracteres inválidos, limpeza, encoding).
 
 - Separação entre tipos de variáveis diferentes (numéricas e categóricas).
@@ -246,7 +243,7 @@ print(coef_df.sort_values(by="Odds_Ratio", ascending=False))
 
 - Geração de gráficos (Salário (Hist), PairPlot, Distribuição das probabilidades preditas, Distribuição do salário).
 
-### Resumo
+## 8. Resumo
 O objetivo central é prever se um indivíduo recebe acima ou abaixo de 50 mil anuais. O trabalho iniciou-se com uma rigorosa preparação da base de dados, que abrangeu a limpeza de registros, o tratamento de valores ausentes, a codificação de variáveis categóricas e a padronização das numéricas, garantindo assim a qualidade necessária para a modelagem.
 
 Na etapa de testes, comparamos o desempenho da Regressão Linear com a Regressão Logística. Os resultados evidenciaram que a Regressão Linear é inadequada para este cenário; por ser desenhada para estimar valores contínuos, ela não consegue lidar corretamente com a natureza binária da variável alvo, falha que foi confirmada pela análise dos resíduos e pela inconsistência das previsões.
