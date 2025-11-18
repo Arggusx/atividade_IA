@@ -31,6 +31,10 @@ print("Gráficos gerados!\n")
 # TRATAMENTO
 # ===========
 
+# Removendo os '?'.
+df.replace('?', np.nan, inplace=True)
+df.dropna(inplace=True)
+
 # Limpar espaços em branco nas colunas e nos valores (string)
 df.columns = df.columns.str.strip()
 for col in df.select_dtypes(include=['object']).columns:
@@ -78,6 +82,8 @@ coef = pd.DataFrame({
     "Feature": X.columns,
     "Coeficiente": lr.coef_
 })
+
+print(coef)
 
 # Ordenando para ver os maiores impactos positivos e negativos
 top_positive = coef.sort_values(by='Coeficiente', ascending=False).head(5)
