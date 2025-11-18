@@ -21,8 +21,8 @@ df['salary'].hist(bins=20)
 plt.savefig("linear_hist_salary.png")
 plt.close()
 
-sns.pairplot(df)
-plt.savefig("linear_pairplot.png")
+g = sns.pairplot(df)
+g.savefig("linear_pairplot.png")
 plt.close()
 
 print("Gráficos gerados!\n")
@@ -91,3 +91,11 @@ print(top_positive[['Feature', 'Coeficiente']].to_string(index=False))
 
 print("\n5 Variáveis que DIMINUEM a chance de ganhar >50K:")
 print(top_negative[['Feature', 'Coeficiente']].to_string(index=False))
+
+y_pred_lin_class = (y_pred_lr > 0.5).astype(int)
+
+linear_results = {
+    "y_test": y_test,
+    "y_pred_class": y_pred_lin_class,
+    "y_pred_cont": y_pred_lr
+}

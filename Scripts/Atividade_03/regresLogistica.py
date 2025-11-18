@@ -14,7 +14,8 @@ df = pd.read_csv("Arquivos/salary.csv")
 print("Valores únicos na coluna salary:", df['salary'].unique())
 sns.countplot(x='salary', data=df)
 plt.title("Distribuição do salário")
-plt.show()
+plt.savefig("logistica_salario.png")
+plt.close()
 
 df['salary_class'] = df['salary'].str.strip().map({'<=50K':0, '>50K':1})
 print("\nDistribuição das classes:\n", df['salary_class'].value_counts())
@@ -29,13 +30,13 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X_scaled, y, test_size=0.3, random_state=42, stratify=y
+    X_scaled, y, test_size=0.2, random_state=42, stratify=y
 )
 
 # ========================
 # 8. Regressão Logística
 # ========================
-logreg = LogisticRegression(max_iter=5000, class_weight='balanced')
+logreg = LogisticRegression(max_iter=5000)
 logreg.fit(X_train, y_train)
 
 y_pred_log = logreg.predict(X_test)
@@ -60,7 +61,8 @@ sns.histplot(y_prob_log, bins=20, kde=True)
 plt.title("Distribuição das probabilidades preditas (Logística)")
 plt.xlabel("Probabilidade de salário alto")
 plt.ylabel("Frequência")
-plt.show()
+plt.savefig("logistica_probabilidades.png")
+plt.close()
 
 # ===============
 # 9. Adicional
@@ -73,3 +75,9 @@ print("\n=== Regressão Linear como Classificação ===")
 print("Accuracy:", accuracy_score(y_test, y_pred_lin_class))
 print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred_lin_class))
 print("Classification Report:\n", classification_report(y_test, y_pred_lin_class))
+
+logistica_results = {
+    "y_test": y_test,
+    "y_pred_class": y_pred_log,
+    "y_prob": y_prob_log
+}
