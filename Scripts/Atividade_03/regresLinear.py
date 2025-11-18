@@ -25,7 +25,7 @@ sns.pairplot(df)
 plt.savefig("linear_pairplot.png")
 plt.close()
 
-print("Gráficos gerados!")
+print("Gráficos gerados!\n")
 
 # ===========
 # TRATAMENTO
@@ -53,7 +53,7 @@ X = pd.get_dummies(X, drop_first=True)
 # TREINO
 # ==========
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # ========================
 # REGRESSÃO LINEAR
@@ -78,4 +78,16 @@ coef = pd.DataFrame({
     "Feature": X.columns,
     "Coeficiente": lr.coef_
 })
-print(coef)
+
+# Ordenando para ver os maiores impactos positivos e negativos
+top_positive = coef.sort_values(by='Coeficiente', ascending=False).head(5)
+top_negative = coef.sort_values(by='Coeficiente', ascending=True).head(5)
+
+print(f"\nIntercepto (Valor Base): {lr.intercept_:.4f}")
+print("-" * 30)
+
+print("\n5 Variáveis que AUMENTAM a chance de ganhar >50K:")
+print(top_positive[['Feature', 'Coeficiente']].to_string(index=False))
+
+print("\n5 Variáveis que DIMINUEM a chance de ganhar >50K:")
+print(top_negative[['Feature', 'Coeficiente']].to_string(index=False))
